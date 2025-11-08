@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <title>404 Page not found | My Hugo Site</title>
+  <meta name="description" content="A modern Hugo site with profile and news sections">
+  
+  
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  
+  
+  
+  
+  
+    
+      
+    
+    <link rel="stylesheet" href="/css/_variables.min.c8912b845e5076c45940f40eb73a9cd241e39c6fc635d274c732d1b16e27691b.css" integrity="sha256-yJErhF5QdsRZQPQOtzqc0kHjnG/GNdJ0xzLRsW4naRs=">
+  
+  
+  
+    
+      
+    
+    <link rel="stylesheet" href="/css/styles.min.644ed0b5e279aadfa47c2d0516d1c0f65b1686f46353eeb081dec89dc9f5f5a0.css" integrity="sha256-ZE7QteJ5qt&#43;kfC0FFtHA9lsWhvRjU&#43;6wgd7Incn19aA=">
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="404 Page not found">
+  <meta property="og:description" content="A modern Hugo site with profile and news sections">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.com/404.html">
+  
+  
+  
+</head>
+<body>
+  
+<div style="text-align: center; padding: 4rem 2rem; max-width: 600px; margin: 0 auto;">
+  <h1 style="font-size: 4rem; margin-bottom: 1rem; color: var(--text, #1f2937);">404</h1>
+  <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--text, #1f2937);">Page Not Found</h2>
+  <p style="margin: 2rem 0; color: var(--text-light, #6b7280); line-height: 1.7;">
+    The page you're looking for doesn't exist or has been moved.
+  </p>
+  <a 
+    href="/" 
+    style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--primary, #3b82f6); color: white; text-decoration: none; border-radius: 0.5rem; transition: transform 0.15s ease; font-weight: 600;"
+    onmouseover="this.style.transform='translateY(-2px)'"
+    onmouseout="this.style.transform='translateY(0)'"
+  >
+    Return to Homepage
+  </a>
+</div>
+
+  <script>
+
+
+
+function openImageModal(imgElement) {
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImage');
+  
+  if (!modal || !modalImg) return;
+  
+  
+  const fullImageUrl = imgElement.dataset.fullImage || imgElement.src;
+  
+  modalImg.src = fullImageUrl;
+  modalImg.alt = imgElement.alt;
+  modal.classList.add('active');
+  
+  
+  modal.focus();
+  
+  
+  document.body.style.overflow = 'hidden';
+}
+
+function closeImageModal(event) {
+  
+  if (event.target.id === 'imageModal' || 
+      event.target.classList.contains('image-modal-close') ||
+      event.target.closest('.image-modal-close')) {
+    
+    const modal = document.getElementById('imageModal');
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    event.stopPropagation();
+  }
+}
+
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    const modal = document.getElementById('imageModal');
+    if (modal && modal.classList.contains('active')) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const skipLink = document.querySelector('.skip-link');
+  if (skipLink) {
+    skipLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.focus();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+});
+
+
+
+if ('IntersectionObserver' in window) {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+  
+  
+  document.querySelectorAll('.news-item').forEach(item => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateY(20px)';
+    item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(item);
+  });
+}
+</script>
+</body>
+</html>

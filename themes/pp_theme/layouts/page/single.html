@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+
+  <head>
+    {{ partial "head.html" . }}
+
+    <style> 
+      .page {
+        display: grid;
+        padding-left: 15vw;
+        padding-right: 15vw;
+        padding-bottom: 15vw;
+        padding-top: 2vw;
+      }
+
+      .page .page-body img {
+        display: block;
+        margin: 0 auto;
+      }
+      
+      .page h1 {
+      text-align: left;
+      font-weight: 1000;
+      font-size: 400%;
+      color: var(--secondary-color);
+      letter-spacing: 0.5px;
+      }
+
+      .page h2 {
+        text-align: center;
+        font-weight: bold;
+        font-size: 310%;
+        color: var(--secondary-color);
+        letter-spacing: 0.1px;
+      }
+
+      .page p {
+        color: var(--text2-color);
+        font-weight: 250;
+        font-size: 2rem;
+      }
+
+      .page ul {
+        color: var(--text2-color);
+        font-weight: 250;
+        font-size: 2rem;
+      }
+
+      .page ul li {
+        margin-bottom: 2.5em;  
+      }
+
+      .page a {
+        text-decoration: underline;
+      }
+
+      .page a:hover {
+        text-decoration: underline;
+        color: var(--text2-color);
+      }
+
+      /* Aplica a todas las tablas */
+      .page table {
+        text-align: center;
+        color: var(--secondary-color);
+        font-weight: 250;
+        font-size: 150%;
+
+        width: calc(100vw - 25vw); /* 100vw menos padding total */
+        padding: 1em;               /* padding interno del contenido */
+        box-sizing: border-box;
+
+        margin-top: 5vw;
+        margin-bottom: 5vw;
+
+        table-layout: fixed;
+      }
+
+      /* Cabecera */
+      .page table th, .page table td {
+        padding: 2vw;
+        border: none;
+        text-align: center;
+      }
+
+      .page table td {
+        vertical-align: top;
+      } 
+
+      /* Responsive: apilar columnas en móvil */
+      @media screen and (max-width: 768px) {
+      .page table,
+      .page thead,
+      .page tbody,
+      .page th,
+      .page td,
+      .page tr {
+        display: block;
+        width: 100%;
+        text-align: center; /* centra el contingut */
+      }
+
+      .page thead tr {
+        display: none; /* ocultar capçalera */
+      }
+
+      .page td {
+        padding: 1em;       /* padding uniforme a totes bandes */
+        margin: 0;           /* eliminar margins extra */
+        position: relative;
+        margin-left: -3em;   /* petit padding per evitar tocar el borde */
+      }
+
+      .page td::before {
+        display: block;      /* etiqueta sobre el contingut */
+        content: attr(data-label);
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 0.5em; /* espai entre etiqueta i contingut */
+        text-align: center;    /* centra l’etiqueta */
+        position: static;      /* evita desplaçar el text */
+      }
+    }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <div id="all">
+          <div class="page-body">
+              {{ if .Site.Params.PageInfo.enable }}
+                  {{ .Content }}
+              {{ end }}
+          </div>
+        </main>
+
+    </div>
+
+  </body>
+</html>

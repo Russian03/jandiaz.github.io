@@ -1,0 +1,143 @@
+{{/* News List Component */}}
+{{/* Supports both single-file (news array in front matter) and multi-file approaches */}}
+
+{{ $newsItems := slice }}
+
+{{/* APPROACH 1: Check for news array in current page params (single-file) */}}
+{{ if .Params.news }}
+  {{ $newsItems = .Params.news }}
+{{ else }}
+  {{/* APPROACH 2: Get news from separate content files (multi-file) */}}
+  {{ $newsSection := .Site.GetPage "/news" }}
+  {{ if $newsSection }}
+    {{ $newsItems = $newsSection.RegularPages }}
+  {{ end }}
+{{ end }}
+
+{{ if $newsItems }}
+<section class="news-section" id="news" aria-labelledby="news-title">
+  <h2 class="news-section-title" id="news-title">Latest News</h2>
+  
+  <div class="news-grid">
+    {{ range $newsItems }}
+      {{ $item := . }}
+      
+      {{/* Handle both map (single-file) and page (multi-file) data structures */}}
+      {{ $title := "" }}
+      {{ $date := "" }}
+      {{ $image := "" }}
+      {{ $imagePosition := "embedded" }}
+      {{ $summary := "" }}
+      {{ $link := "" }}
+      
+      {{ if reflect.IsMap $item }}
+        {{/* Single-file approach: accessing map fields */}}
+        {{ $title = $item.title }}
+        {{ $date = $item.date }}
+        {{ $image = $item.image }}
+        {{ $imagePosition = default "embedded" $item.imagePosition }}
+        {{ $summary = $item.summary }}
+        {{ $link = $item.link }}
+      {{ else }}
+        {{/* Multi-file approach: accessing page fields */}}
+        {{ $title = $item.Title }}
+        {{ $date = $item.Date }}
+        {{ $image = $item.Params.image }}
+        {{ $imagePosition = default "embedded" $item.Params.imagePosition }}
+        {{ $summary = default $item.Summary $item.Params.summary }}
+        {{ $link = default $item.RelPermalink $item.Params.link }}
+      {{ end }}
+      
+      <article class="news-item image-{{ $imagePosition }}">
+        {{/* News Image (if provided) */}}
+        {{ if $image }}
+          {{ $newsImage := "" }}
+          
+          {{/* Try page resources first (for multi-file approach) */}}
+          {{ if not (reflect.IsMap $item) }}
+            {{ with $item.Resources.GetMatch $image }}
+              {{ $newsImage = . }}
+            {{ end }}
+          {{ end }}
+          
+          {{/* Fallback to static folder */}}
+          {{ if not $newsImage }}
+            {{ $newsImage = $image }}
+          {{ end }}
+          
+          {{ if $newsImage }}
+            {{ if reflect.IsMap $newsImage }}
+              {{/* Hugo resource - generate responsive sizes */}}
+              {{ $small := $newsImage.Resize "400x" }}
+              {{ $medium := $newsImage.Resize "800x" }}
+              
+              <img 
+                src="{{ $medium.RelPermalink }}"
+                srcset="{{ $small.RelPermalink }} 400w,
+                        {{ $medium.RelPermalink }} 800w"
+                sizes="(max-width: 640px) 100vw, 
+                       (max-width: 1024px) 50vw, 
+                       400px"
+                alt="{{ $title }}"
+                class="news-image"
+                loading="lazy"
+                data-full-image="{{ $newsImage.RelPermalink }}"
+                onclick="openImageModal(this)"
+                onkeypress="if(event.key==='Enter') openImageModal(this)"
+                tabindex="0"
+                role="button"
+                aria-label="View full-size image of {{ $title }}"
+              />
+            {{ else }}
+              {{/* Static image */}}
+              <img 
+                src="{{ $newsImage | relURL }}"
+                alt="{{ $title }}"
+                class="news-image"
+                loading="lazy"
+                onclick="openImageModal(this)"
+                onkeypress="if(event.key==='Enter') openImageModal(this)"
+                tabindex="0"
+                role="button"
+                aria-label="View full-size image of {{ $title }}"
+              />
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        
+        <div class="news-content">
+          {{/* Date */}}
+          {{ if $date }}
+            <time class="news-date" datetime="{{ dateFormat "2006-01-02" $date }}">
+              {{ dateFormat "January 2, 2006" $date }}
+            </time>
+          {{ end }}
+          
+          {{/* Title */}}
+          <h3 class="news-title">{{ $title }}</h3>
+          
+          {{/* Summary */}}
+          {{ with $summary }}
+            <p class="news-summary">{{ . }}</p>
+          {{ end }}
+          
+          {{/* Read More Link */}}
+          {{ with $link }}
+            <a href="{{ . | relURL }}" class="news-link" aria-label="Read more about {{ $title }}">
+              Read More
+            </a>
+          {{ end }}
+        </div>
+      </article>
+    {{ end }}
+  </div>
+</section>
+
+{{/* Image Modal for full-size viewing */}}
+<div class="image-modal" id="imageModal" onclick="closeImageModal(event)" role="dialog" aria-modal="true" aria-label="Full-size image viewer">
+  <button class="image-modal-close" onclick="closeImageModal(event)" aria-label="Close image viewer">
+    ×
+  </button>
+  <img src="" alt="" id="modalImage" />
+</div>
+{{ end }}

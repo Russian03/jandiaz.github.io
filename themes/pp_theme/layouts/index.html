@@ -1,0 +1,35 @@
+{{ define "main" }}
+
+{{/* CSS Variable Overrides from Front Matter */}}
+{{ with .Params.cssVars }}
+  <style>
+    :root {
+      {{ range $key, $value := . }}
+        --{{ $key }}: {{ $value }};
+      {{ end }}
+    }
+  </style>
+{{ end }}
+
+<div class="homepage-container">
+  {{/* Optional Page Title */}}
+  {{ if .Params.showTitle }}
+    <h1 class="page-title">{{ .Title }}</h1>
+  {{ end }}
+  
+  {{/* Two-Column Grid: Profile Card + About Content */}}
+  <div class="content-grid">
+    {{/* Left Column: Profile Card */}}
+    {{ partial "profile-card.html" . }}
+    
+    {{/* Right Column: About Content */}}
+    <main id="main-content" class="about-content" role="main">
+      {{ .Content }}
+    </main>
+  </div>
+  
+  {{/* Full-Width News Section */}}
+  {{ partial "news-list.html" . }}
+</div>
+
+{{ end }}

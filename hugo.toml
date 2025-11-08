@@ -1,0 +1,13 @@
+baseURL = 'https://example.com/'
+languageCode = 'en-us'
+title = 'My Hugo Site'
+theme = "pp_theme"
+
+
+[params]
+description = 'A modern Hugo site with profile and news sections'
+
+# Optional: Global CSS variable overrides
+[params.cssVars]
+primary = '#3b82f6'
+secondary = '#8b5cf6'

@@ -1,0 +1,43 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  
+  {{/* Favicon */}}
+  <link rel="icon" type="image/x-icon" href="{{ "favicon.ico" | relURL }}">
+  
+  {{/* CSS - Using Hugo Pipes for processing */}}
+  {{ $variables := resources.Get "css/_variables.css" }}
+  {{ $styles := resources.Get "css/styles.css" }}
+  
+  {{ if $variables }}
+    {{ if hugo.IsProduction }}
+      {{ $variables = $variables | minify | fingerprint }}
+    {{ end }}
+    <link rel="stylesheet" href="{{ $variables.RelPermalink }}" {{ if hugo.IsProduction }}integrity="{{ $variables.Data.Integrity }}"{{ end }}>
+  {{ end }}
+  
+  {{ if $styles }}
+    {{ if hugo.IsProduction }}
+      {{ $styles = $styles | minify | fingerprint }}
+    {{ end }}
+    <link rel="stylesheet" href="{{ $styles.RelPermalink }}" {{ if hugo.IsProduction }}integrity="{{ $styles.Data.Integrity }}"{{ end }}>
+  {{ end }}
+  
+  {{/* Preload key resources for performance */}}
+  {{ with .Params.profile.photo }}
+    <link rel="preload" as="image" href="{{ . | relURL }}">
+  {{ end }}
+  
+  {{/* Open Graph / Social Media Meta Tags */}}
+  <meta property="og:title" content="{{ .Title }}">
+  <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ .Permalink }}">
+  
+  {{/* Additional head elements from config or page params */}}
+  {{ with partialCached "custom-head.html" . }}{{ . }}{{ end }}
+</head>

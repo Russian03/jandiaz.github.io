@@ -1,0 +1,26 @@
+{{ define "main" }}
+<div class="list-page" style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+  <h1>{{ .Title }}</h1>
+  
+  {{ .Content }}
+  
+  <div style="display: grid; gap: 2rem; margin-top: 2rem;">
+    {{ range .Pages }}
+      <article style="padding: 1.5rem; background: var(--card-bg, white); border-radius: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <h2 style="margin-bottom: 0.5rem;">
+          <a href="{{ .RelPermalink }}" style="color: var(--text, #1f2937); text-decoration: none;">
+            {{ .Title }}
+          </a>
+        </h2>
+        <time style="font-size: 0.875rem; color: var(--text-light, #6b7280);">
+          {{ .Date.Format "January 2, 2006" }}
+        </time>
+        <p style="margin-top: 1rem; line-height: 1.7;">{{ .Summary }}</p>
+        <a href="{{ .RelPermalink }}" style="color: var(--primary, #3b82f6); text-decoration: none; font-weight: 600;">
+          Read more →
+        </a>
+      </article>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

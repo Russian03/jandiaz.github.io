@@ -1,0 +1,71 @@
+{{/* Profile Card Component */}}
+{{/* Expects: .Params.profile from page front matter */}}
+
+{{ with .Params.profile }}
+<aside class="profile-card" role="complementary" aria-label="Profile information">
+  {{/* Profile Photo - with responsive srcset if using page bundles */}}
+  {{ $profileImage := "" }}
+  
+  {{/* Try to get image from page resources first (page bundle) */}}
+  {{ with $.Resources.GetMatch .photo }}
+    {{ $profileImage = . }}
+  {{ else }}
+    {{/* Fallback to static folder */}}
+    {{ $profileImage = .photo }}
+  {{ end }}
+  
+  {{ if $profileImage }}
+    {{ if reflect.IsMap $profileImage }}
+      {{/* It's a Hugo resource - generate responsive sizes */}}
+      {{ $small := $profileImage.Resize "150x150" }}
+      {{ $medium := $profileImage.Resize "300x300" }}
+      {{ $large := $profileImage.Resize "600x600" }}
+      
+      <img 
+        src="{{ $medium.RelPermalink }}"
+        srcset="{{ $small.RelPermalink }} 150w,
+                {{ $medium.RelPermalink }} 300w,
+                {{ $large.RelPermalink }} 600w"
+        sizes="(max-width: 768px) 150px, 300px"
+        alt="{{ .name }}'s profile photo"
+        class="profile-photo"
+        loading="lazy"
+      />
+    {{ else }}
+      {{/* Static image - simple path */}}
+      <img 
+        src="{{ $profileImage | relURL }}"
+        alt="{{ .name }}'s profile photo"
+        class="profile-photo"
+        loading="lazy"
+      />
+    {{ end }}
+  {{ end }}
+  
+  {{/* Name and Position */}}
+  <h2 class="profile-name">{{ .name }}</h2>
+  <p class="profile-position">{{ .position }}</p>
+  
+  {{/* Bio */}}
+  {{ with .bio }}
+    <p class="profile-bio">{{ . }}</p>
+  {{ end }}
+  
+  {{/* Social/Contact Links */}}
+  {{ with .links }}
+    <nav class="profile-links" aria-label="Social and contact links">
+      {{ range . }}
+        <a 
+          href="{{ .url }}" 
+          class="profile-link"
+          data-icon="{{ .icon }}"
+          {{ if hasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}
+          aria-label="{{ .label }}"
+        >
+          <span>{{ .label }}</span>
+        </a>
+      {{ end }}
+    </nav>
+  {{ end }}
+</aside>
+{{ end }}

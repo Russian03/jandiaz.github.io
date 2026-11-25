@@ -15,7 +15,15 @@ export function hasWebGL(): boolean {
   }
 }
 
-export function CardStage({ content, size }: { content: Content; size: number }) {
+export function CardStage({
+  content,
+  size,
+  strap,
+}: {
+  content: Content;
+  size: number;
+  strap: number;
+}) {
   const [faces, setFaces] = useState<{ front: string; back: string; strap: string }>();
   const [webgl] = useState(hasWebGL);
 
@@ -54,7 +62,7 @@ export function CardStage({ content, size }: { content: Content; size: number })
             cardColor="#ffffff"
             size={size}
             intro={false}
-            strapLength={0.32}
+            strapLength={strap}
             breeze={0}
           />
         )}

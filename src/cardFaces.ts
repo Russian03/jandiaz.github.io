@@ -75,7 +75,7 @@ export async function renderFront(c: Content, photoUrl: string): Promise<string>
     py = 320;
   ctx.save();
   ctx.beginPath();
-  ctx.roundRect(px, py, pw, ph, 36);
+  ctx.rect(px, py, pw, ph);
   ctx.clip();
   const scale = Math.max(pw / img.width, ph / img.height);
   const dw = img.width * scale,

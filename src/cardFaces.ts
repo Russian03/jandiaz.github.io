@@ -2,11 +2,13 @@ import type { Content } from './content/loadContent';
 
 const W = 900;
 const H = 1260;
+const FONT = '"Space Grotesk Variable", system-ui, sans-serif';
 
 async function loadFonts() {
   try {
     await Promise.all([
       document.fonts.load('700 96px "Space Grotesk Variable"'),
+      document.fonts.load('400 42px "Space Grotesk Variable"'),
       document.fonts.load('500 44px "Space Grotesk Variable"'),
     ]);
   } catch {
@@ -32,7 +34,7 @@ function fitText(
 ) {
   let s = size;
   do {
-    ctx.font = `${weight} ${s}px "Space Grotesk Variable", system-ui, sans-serif`;
+    ctx.font = `${weight} ${s}px ${FONT}`;
     s -= 2;
   } while (ctx.measureText(text).width > maxWidth && s > 20);
 }
@@ -78,7 +80,25 @@ export async function renderFront(c: Content, photoUrl: string): Promise<string>
   return canvas.toDataURL('image/png');
 }
 
-/** Back face: handle on a plain graphite background. */
+function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+  const lines: string[] = [];
+  for (const paragraph of text.split(/\n+/)) {
+    let line = '';
+    for (const word of paragraph.split(/\s+/)) {
+      const test = line ? `${line} ${word}` : word;
+      if (line && ctx.measureText(test).width > maxWidth) {
+        lines.push(line);
+        line = word;
+      } else line = test;
+    }
+    if (line) lines.push(line);
+    lines.push('');
+  }
+  lines.pop();
+  return lines;
+}
+
+/** Back face: "About me" text plus the Instagram handle on a graphite background. */
 export async function renderBack(c: Content): Promise<string> {
   await loadFonts();
   const canvas = document.createElement('canvas');
@@ -90,12 +110,30 @@ export async function renderBack(c: Content): Promise<string> {
   bg.addColorStop(1, '#14161a');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
-  ctx.textAlign = 'center';
+
+  const pad = 90;
+  const text = c.about.replace(/[*_`#>]/g, '');
+  ctx.textAlign = 'left';
   ctx.fillStyle = '#f4f5f7';
-  fitText(ctx, c.name, W - 180, 84, 700);
-  ctx.fillText(c.name, W / 2, H / 2 - 20);
+  ctx.font = `700 64px ${FONT}`;
+  ctx.fillText(c.aboutLabel, pad, 330);
+
+  // shrink the body text until it fits the free area
+  const top = 400;
+  const bottom = H - 190;
+  let size = 42;
+  let lines: string[] = [];
+  for (; size >= 22; size -= 2) {
+    ctx.font = `400 ${size}px ${FONT}`;
+    lines = wrap(ctx, text, W - pad * 2);
+    if (lines.length * size * 1.4 <= bottom - top) break;
+  }
+  ctx.fillStyle = '#c9ced6';
+  lines.forEach((l, n) => ctx.fillText(l, pad, top + size + n * size * 1.4));
+
+  ctx.textAlign = 'center';
   ctx.fillStyle = '#a9afb9';
-  fitText(ctx, c.handle, W - 180, 52, 500);
-  ctx.fillText(c.handle, W / 2, H / 2 + 60);
+  fitText(ctx, c.handle, W - 180, 44, 500);
+  ctx.fillText(c.handle, W / 2, H - 110);
   return canvas.toDataURL('image/png');
 }

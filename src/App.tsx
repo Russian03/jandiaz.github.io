@@ -10,7 +10,6 @@ export default function App() {
   const [lang, setLang] = useState<Lang>(() =>
     resolveInitialLang(window.location.search, readStoredLang()),
   );
-  const [aboutOpen, setAboutOpen] = useState(false);
   const [alwaysAbout] = useState(() => !hasWebGL());
   const content = CONTENT[lang];
 
@@ -27,13 +26,13 @@ export default function App() {
     <div className="page">
       <main className="stage">
         <section
-          className={`about${aboutOpen || alwaysAbout ? ' open' : ''}`}
+          className={`about${alwaysAbout ? ' visible' : ''}`}
           aria-label={content.aboutLabel}
         >
           <h2>{content.aboutLabel}</h2>
           <Markdown>{content.about}</Markdown>
         </section>
-        <CardStage content={content} onFlip={setAboutOpen} />
+        <CardStage content={content} />
       </main>
 
       <footer className="footer">

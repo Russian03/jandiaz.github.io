@@ -15,18 +15,12 @@ export function hasWebGL(): boolean {
   }
 }
 
-interface Props {
-  content: Content;
-  onFlip?: (showingBack: boolean) => void;
-}
-
-export function CardStage({ content, onFlip }: Props) {
+export function CardStage({ content }: { content: Content }) {
   const [faces, setFaces] = useState<{ front: string; back: string }>();
   const [webgl] = useState(hasWebGL);
   const [size] = useState(() =>
     window.innerWidth < 600 ? 0.36 : window.innerWidth < 1000 ? 0.42 : 0.46,
   );
-  const [calm] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   useEffect(() => {
     let alive = true;
@@ -61,8 +55,7 @@ export function CardStage({ content, onFlip }: Props) {
             cardColor="#1c1f25"
             size={size}
             intro={false}
-            onFlip={onFlip}
-            breeze={calm ? 0 : 0.2}
+            breeze={0}
           />
         )}
       </Suspense>

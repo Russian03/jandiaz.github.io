@@ -2,14 +2,14 @@ import type { Content } from './content/loadContent';
 
 const W = 900;
 const H = 1260;
-const FONT = '"Space Grotesk Variable", system-ui, sans-serif';
+const FONT = '"Bricolage Grotesque Variable", system-ui, sans-serif';
 
 async function loadFonts() {
   try {
     await Promise.all([
-      document.fonts.load('700 96px "Space Grotesk Variable"'),
-      document.fonts.load('400 42px "Space Grotesk Variable"'),
-      document.fonts.load('500 44px "Space Grotesk Variable"'),
+      document.fonts.load('700 96px "Bricolage Grotesque Variable"'),
+      document.fonts.load('400 42px "Bricolage Grotesque Variable"'),
+      document.fonts.load('500 44px "Bricolage Grotesque Variable"'),
     ]);
   } catch {
     /* fall back to system font */
@@ -110,7 +110,7 @@ function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): st
   return lines;
 }
 
-/** Back face: "About me" text plus the Instagram handle on a graphite background. */
+/** Back face: "About me" text on a graphite background. */
 export async function renderBack(c: Content): Promise<string> {
   await loadFonts();
   const canvas = document.createElement('canvas');
@@ -132,7 +132,7 @@ export async function renderBack(c: Content): Promise<string> {
 
   // shrink the body text until it fits the free area
   const top = 400;
-  const bottom = H - 190;
+  const bottom = H - 120;
   let size = 42;
   let lines: string[] = [];
   for (; size >= 22; size -= 2) {
@@ -143,10 +143,6 @@ export async function renderBack(c: Content): Promise<string> {
   ctx.fillStyle = '#c9ced6';
   lines.forEach((l, n) => ctx.fillText(l, pad, top + size + n * size * 1.4));
 
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#a9afb9';
-  fitText(ctx, c.handle, W - 180, 44, 500);
-  ctx.fillText(c.handle, W / 2, H - 110);
   return canvas.toDataURL('image/png');
 }
 

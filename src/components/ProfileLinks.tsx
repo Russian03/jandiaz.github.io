@@ -1,6 +1,14 @@
 import type { ComponentType } from 'react';
-import { FaGithub, FaLinkedinIn, FaInstagram, FaEnvelope, FaFileLines } from 'react-icons/fa6';
+import { FaGithub, FaLinkedinIn, FaInstagram, FaEnvelope } from 'react-icons/fa6';
 import type { Content } from '../content/loadContent';
+
+function CvIcon() {
+  return (
+    <span className="cv-badge" aria-hidden>
+      CV
+    </span>
+  );
+}
 
 type LinkType = Content['links'][number]['type'];
 
@@ -9,7 +17,7 @@ const ICONS: Record<LinkType, ComponentType<{ 'aria-hidden'?: boolean }>> = {
   email: FaEnvelope,
   linkedin: FaLinkedinIn,
   instagram: FaInstagram,
-  cv: FaFileLines,
+  cv: CvIcon,
 };
 
 export function ProfileLinks({ links }: { links: Content['links'] }) {

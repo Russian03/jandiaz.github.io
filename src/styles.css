@@ -1,19 +1,20 @@
 :root {
-  --bg: #f4f5f7;
-  --fg: #14161a;
-  --muted: #6b7280;
-  --accent: #14161a;
-  --display: 'Space Grotesk Variable', 'Inter Variable', system-ui, sans-serif;
-  --chip: rgba(20, 22, 26, 0.06);
+  --bg: #f6efe6;
+  --fg: #1d1915;
+  --muted: #7b6f64;
+  --accent: #1d1915;
+  --display: 'Bricolage Grotesque Variable', 'Inter Variable', system-ui, sans-serif;
+  --mono: 'DM Mono', ui-monospace, monospace;
+  --chip: rgba(29, 25, 21, 0.07);
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f1115;
-    --fg: #f4f5f7;
-    --muted: #9aa1ad;
-    --accent: #f4f5f7;
-    --chip: rgba(244, 245, 247, 0.08);
+    --bg: #15120f;
+    --fg: #f6efe6;
+    --muted: #a29688;
+    --accent: #f6efe6;
+    --chip: rgba(246, 239, 230, 0.09);
   }
 }
 * {
@@ -138,9 +139,9 @@ body {
 }
 .hint {
   margin: 0;
-  font-family: var(--display);
-  letter-spacing: 0.02em;
-  font-size: 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
   color: var(--muted);
 }
 .links {
@@ -148,6 +149,7 @@ body {
   gap: 14px;
 }
 .links a {
+  text-decoration: none;
   position: relative;
   z-index: 4;
   display: grid;
@@ -219,4 +221,21 @@ button:focus-visible {
     justify-content: center;
     gap: 10px 18px;
   }
+}
+
+.page > .lang {
+  position: absolute;
+  z-index: 4;
+  top: calc(12px + env(safe-area-inset-top));
+  right: calc(16px + env(safe-area-inset-right));
+}
+.cv-badge {
+  padding: 2px 5px;
+  border: 2.5px solid currentColor;
+  border-radius: 7px;
+  font-family: var(--display);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
 }

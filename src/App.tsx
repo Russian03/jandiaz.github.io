@@ -24,6 +24,7 @@ export default function App() {
 
   return (
     <div className="page">
+      <LangSwitch lang={lang} onChange={setLang} />
       <main className="stage">
         <section
           className={`about${alwaysAbout ? ' visible' : ''}`}
@@ -38,7 +39,6 @@ export default function App() {
       <footer className="footer">
         <p className="hint">({content.hint})</p>
         <ProfileLinks links={content.links} />
-        <LangSwitch lang={lang} onChange={setLang} />
       </footer>
     </div>
   );

@@ -2,7 +2,6 @@ import type { Content } from './content/loadContent';
 
 const W = 900;
 const H = 1260;
-const STRAP_NAME_X = 2850;
 const FONT = '"Bricolage Grotesque Variable", system-ui, sans-serif';
 
 async function loadFonts() {
@@ -148,12 +147,14 @@ export async function renderBack(c: Content): Promise<string> {
 }
 
 /**
- * Lanyard strap texture. It is a very long, mostly plain tile, so the name appears once
- * (next to the clip) instead of repeating along the whole strap.
+ * Lanyard strap tile: the name once, followed by some plain strap. The tile repeats along
+ * the whole strap, so the name shows up several times with comfortable spacing.
+ * Widen `w` for more space between names, shrink it for denser repetition (keep the
+ * name narrower than `w` so neighbours never touch).
  */
 export async function renderStrap(c: Content): Promise<string> {
   await loadFonts();
-  const w = 3200;
+  const w = 430;
   const h = 200;
   const canvas = document.createElement('canvas');
   canvas.width = w;
@@ -164,7 +165,7 @@ export async function renderStrap(c: Content): Promise<string> {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillStyle = '#e8eaee';
-  ctx.font = `700 78px ${FONT}`;
-  ctx.fillText(c.name.toUpperCase(), STRAP_NAME_X, h / 2);
+  ctx.font = `700 62px ${FONT}`;
+  ctx.fillText(c.name.toUpperCase(), w / 2, h / 2);
   return canvas.toDataURL('image/png');
 }

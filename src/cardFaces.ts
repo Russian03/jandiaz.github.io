@@ -16,16 +16,6 @@ async function loadFonts() {
   }
 }
 
-function drawSlot(ctx: CanvasRenderingContext2D) {
-  ctx.beginPath();
-  ctx.roundRect(W / 2 - 85, 70, 170, 36, 18);
-  ctx.fillStyle = '#08090b';
-  ctx.fill();
-  ctx.lineWidth = 3;
-  ctx.strokeStyle = '#3a3f48';
-  ctx.stroke();
-}
-
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -61,7 +51,6 @@ export async function renderFront(c: Content, photoUrl: string): Promise<string>
   bg.addColorStop(1, '#14161a');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
-  drawSlot(ctx);
 
   const img = await loadImage(photoUrl);
   const px = 90,
@@ -121,7 +110,6 @@ export async function renderBack(c: Content): Promise<string> {
   bg.addColorStop(1, '#14161a');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
-  drawSlot(ctx);
 
   const pad = 90;
   const text = c.about.replace(/[*_`#>]/g, '');

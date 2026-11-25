@@ -2,6 +2,7 @@ import type { Content } from './content/loadContent';
 
 const W = 900;
 const H = 1260;
+const STRAP_NAME_X = 2850;
 const FONT = '"Bricolage Grotesque Variable", system-ui, sans-serif';
 
 async function loadFonts() {
@@ -146,19 +147,24 @@ export async function renderBack(c: Content): Promise<string> {
   return canvas.toDataURL('image/png');
 }
 
-/** Repeating lanyard strap tile (same 1025x250 format ReactBits expects). */
+/**
+ * Lanyard strap texture. It is a very long, mostly plain tile, so the name appears once
+ * (next to the clip) instead of repeating along the whole strap.
+ */
 export async function renderStrap(c: Content): Promise<string> {
   await loadFonts();
+  const w = 3200;
+  const h = 200;
   const canvas = document.createElement('canvas');
-  canvas.width = 1025;
-  canvas.height = 250;
+  canvas.width = w;
+  canvas.height = h;
   const ctx = canvas.getContext('2d')!;
   ctx.fillStyle = '#101216';
-  ctx.fillRect(0, 0, 1025, 250);
+  ctx.fillRect(0, 0, w, h);
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillStyle = '#e8eaee';
-  ctx.font = `700 96px ${FONT}`;
-  ctx.fillText(c.name.toUpperCase(), 1025 / 2, 125);
+  ctx.font = `700 78px ${FONT}`;
+  ctx.fillText(c.name.toUpperCase(), STRAP_NAME_X, h / 2);
   return canvas.toDataURL('image/png');
 }

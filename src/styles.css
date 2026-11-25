@@ -164,21 +164,6 @@ body {
     transform 0.15s ease,
     background 0.15s ease;
 }
-.links .link-github {
-  color: var(--fg);
-}
-.links .link-email {
-  color: #ea4335;
-}
-.links .link-linkedin {
-  color: #0a66c2;
-}
-.links .link-instagram {
-  color: #e4405f;
-}
-.links .link-cv {
-  color: #f59e0b;
-}
 .links a:hover {
   background: var(--chip);
 }
@@ -238,4 +223,11 @@ button:focus-visible {
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0.02em;
+}
+@media (max-width: 480px) {
+  .page > .lang button {
+    min-height: 28px;
+    padding: 0 10px;
+    font-size: 0.78rem;
+  }
 }

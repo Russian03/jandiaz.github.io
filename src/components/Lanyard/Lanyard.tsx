@@ -1,7 +1,7 @@
 /**
  * Lanyard — vendored from ReactBits (https://reactbits.dev/components/lanyard)
  * Copyright (c) 2026 David Haz. MIT + Commons Clause. Used here as part of a website.
- * Local changes: Tailwind classes replaced by inline styles.
+ * Local changes: Tailwind classes replaced by inline styles; canvas CSS size pinned to 100% (fixes HiDPI overflow).
  */
 /* eslint-disable */
 // @ts-nocheck
@@ -944,6 +944,10 @@ const Lanyard = ({
     renderer.toneMapping = THREE.NeutralToneMapping;
     renderer.toneMappingExposure = 1;
     const canvas = renderer.domElement;
+    // setSize(..., false) leaves CSS size untouched: pin it so high-DPR screens don't overflow
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.display = 'block';
     canvas.className = 'block w-full h-full';
     canvas.setAttribute('aria-hidden', 'true');
     container.appendChild(canvas);

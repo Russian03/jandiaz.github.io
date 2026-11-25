@@ -15,12 +15,25 @@ export function hasWebGL(): boolean {
   }
 }
 
+/** Card height as a fraction of the viewport, shrunk so the card also fits narrow windows. */
+function computeSize(w: number, h: number): number {
+  return Math.max(0.22, Math.min(0.46, (0.62 * w) / h));
+}
+
+function useCardSize(): number {
+  const [size, setSize] = useState(() => computeSize(window.innerWidth, window.innerHeight));
+  useEffect(() => {
+    const update = () => setSize(computeSize(window.innerWidth, window.innerHeight));
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  return size;
+}
+
 export function CardStage({ content }: { content: Content }) {
   const [faces, setFaces] = useState<{ front: string; back: string }>();
   const [webgl] = useState(hasWebGL);
-  const [size] = useState(() =>
-    window.innerWidth < 600 ? 0.36 : window.innerWidth < 1000 ? 0.42 : 0.46,
-  );
+  const size = useCardSize();
 
   useEffect(() => {
     let alive = true;
@@ -55,6 +68,7 @@ export function CardStage({ content }: { content: Content }) {
             cardColor="#1c1f25"
             size={size}
             intro={false}
+            strapLength={0.25}
             breeze={0}
           />
         )}

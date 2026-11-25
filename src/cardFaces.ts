@@ -137,3 +137,20 @@ export async function renderBack(c: Content): Promise<string> {
   ctx.fillText(c.handle, W / 2, H - 110);
   return canvas.toDataURL('image/png');
 }
+
+/** Repeating lanyard strap tile (same 1025x250 format ReactBits expects). */
+export async function renderStrap(c: Content): Promise<string> {
+  await loadFonts();
+  const canvas = document.createElement('canvas');
+  canvas.width = 1025;
+  canvas.height = 250;
+  const ctx = canvas.getContext('2d')!;
+  ctx.fillStyle = '#101216';
+  ctx.fillRect(0, 0, 1025, 250);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#e8eaee';
+  ctx.font = `700 96px ${FONT}`;
+  ctx.fillText(c.name.toUpperCase(), 1025 / 2, 125);
+  return canvas.toDataURL('image/png');
+}

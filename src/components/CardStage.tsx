@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import type { Content } from '../content/loadContent';
-import { renderBack, renderFront } from '../cardFaces';
+import { renderBack, renderFront, renderStrap } from '../cardFaces';
 
 const Lanyard = lazy(() => import('./Lanyard/Lanyard'));
 
@@ -31,15 +31,15 @@ function useCardSize(): number {
 }
 
 export function CardStage({ content }: { content: Content }) {
-  const [faces, setFaces] = useState<{ front: string; back: string }>();
+  const [faces, setFaces] = useState<{ front: string; back: string; strap: string }>();
   const [webgl] = useState(hasWebGL);
   const size = useCardSize();
 
   useEffect(() => {
     let alive = true;
-    Promise.all([renderFront(content, PHOTO), renderBack(content)])
-      .then(([front, back]) => alive && setFaces({ front, back }))
-      .catch(() => alive && setFaces({ front: PHOTO, back: PHOTO }));
+    Promise.all([renderFront(content, PHOTO), renderBack(content), renderStrap(content)])
+      .then(([front, back, strap]) => alive && setFaces({ front, back, strap }))
+      .catch(() => alive && setFaces({ front: PHOTO, back: PHOTO, strap: PHOTO }));
     return () => {
       alive = false;
     };
@@ -65,6 +65,8 @@ export function CardStage({ content }: { content: Content }) {
             frontImage={faces.front}
             backImage={faces.back}
             metal="graphite"
+            strapImage={faces.strap}
+            strapColor="#ffffff"
             cardColor="#1c1f25"
             size={size}
             intro={false}

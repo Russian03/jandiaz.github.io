@@ -97,7 +97,7 @@ body {
 }
 .canvas {
   position: fixed;
-  inset: -7vh 0 7vh;
+  inset: -2vh 0 2vh;
   z-index: 3;
   filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.35)) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
   touch-action: pan-y;
@@ -134,7 +134,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  padding: 8px 16px 18px;
+  padding: 8px 16px clamp(28px, 8vh, 72px);
 }
 .hint {
   margin: 0;
@@ -154,11 +154,31 @@ body {
   place-items: center;
   width: 44px;
   height: 44px;
-  border-radius: 50%;
-  background: var(--chip);
+  border-radius: 12px;
+  background: transparent;
   color: var(--fg);
-  font-size: 1.15rem;
-  transition: transform 0.15s ease;
+  font-size: 1.5rem;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+.links .link-github {
+  color: var(--fg);
+}
+.links .link-email {
+  color: #ea4335;
+}
+.links .link-linkedin {
+  color: #0a66c2;
+}
+.links .link-instagram {
+  color: #e4405f;
+}
+.links .link-cv {
+  color: #f59e0b;
+}
+.links a:hover {
+  background: var(--chip);
 }
 .links a:hover {
   transform: translateY(-2px);

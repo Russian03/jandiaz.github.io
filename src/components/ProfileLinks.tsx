@@ -21,6 +21,7 @@ export function ProfileLinks({ links }: { links: Content['links'] }) {
         return (
           <a
             key={type}
+            className={`link-${type}`}
             href={url}
             aria-label={label}
             title={label}

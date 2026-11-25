@@ -70,7 +70,7 @@ export function CardStage({ content }: { content: Content }) {
             cardColor="#ffffff"
             size={size}
             intro={false}
-            strapLength={0.25}
+            strapLength={0.32}
             breeze={0}
           />
         )}

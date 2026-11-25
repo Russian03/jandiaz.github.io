@@ -174,8 +174,12 @@ body {
 .links a:hover {
   background: var(--chip);
 }
-.links a:hover {
-  transform: translateY(-2px);
+.links a:hover,
+.links a:focus-visible {
+  transform: scale(1.18);
+}
+.links a:active {
+  transform: scale(1.05);
 }
 .lang {
   position: relative;
@@ -205,14 +209,25 @@ body {
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: var(--muted);
+  color: var(--fg);
+  opacity: 0.7;
   font: inherit;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: color 0.35s ease;
+  transition:
+    color 0.35s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+.lang button:not(.active):hover,
+.lang button:not(.active):focus-visible {
+  opacity: 1;
+  transform: scale(1.08);
 }
 .lang button.active {
   color: var(--bg);
+  opacity: 1;
+  cursor: default;
 }
 @media (prefers-reduced-motion: reduce) {
   .lang-thumb,

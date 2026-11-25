@@ -5,12 +5,14 @@ import { readStoredLang, resolveInitialLang, storeLang } from './i18n/lang';
 import { LangSwitch } from './components/LangSwitch';
 import { ProfileLinks } from './components/ProfileLinks';
 import { CardStage, hasWebGL } from './components/CardStage';
+import { CARD_TOP, useCardSize } from './cardLayout';
 
 export default function App() {
   const [lang, setLang] = useState<Lang>(() =>
     resolveInitialLang(window.location.search, readStoredLang()),
   );
   const [alwaysAbout] = useState(() => !hasWebGL());
+  const size = useCardSize();
   const content = CONTENT[lang];
 
   useEffect(() => {
@@ -33,10 +35,13 @@ export default function App() {
           <h2>{content.aboutLabel}</h2>
           <Markdown>{content.about}</Markdown>
         </section>
-        <CardStage content={content} />
+        <CardStage content={content} size={size} />
       </main>
 
-      <footer className="footer">
+      <footer
+        className={`footer${alwaysAbout ? ' flow' : ''}`}
+        style={alwaysAbout ? undefined : { top: `${(CARD_TOP + size) * 100}vh` }}
+      >
         <p className="hint">({content.hint})</p>
         <ProfileLinks links={content.links} />
       </footer>

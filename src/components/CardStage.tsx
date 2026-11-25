@@ -67,7 +67,7 @@ export function CardStage({ content }: { content: Content }) {
             metal="graphite"
             strapImage={faces.strap}
             strapColor="#ffffff"
-            cardColor="#1c1f25"
+            cardColor="#ffffff"
             size={size}
             intro={false}
             strapLength={0.25}

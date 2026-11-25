@@ -16,6 +16,16 @@ async function loadFonts() {
   }
 }
 
+function drawSlot(ctx: CanvasRenderingContext2D, light = false) {
+  ctx.beginPath();
+  ctx.roundRect(W / 2 - 85, 70, 170, 36, 18);
+  ctx.fillStyle = light ? '#d3d6db' : '#08090b';
+  ctx.fill();
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = light ? '#b4b9c1' : '#3a3f48';
+  ctx.stroke();
+}
+
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -39,7 +49,7 @@ function fitText(
   } while (ctx.measureText(text).width > maxWidth && s > 20);
 }
 
-/** Front face: portrait photo, name and position on a graphite card. */
+/** Front face: white card with the name on top, the photo in the middle and the position below. */
 export async function renderFront(c: Content, photoUrl: string): Promise<string> {
   await loadFonts();
   const canvas = document.createElement('canvas');
@@ -47,20 +57,25 @@ export async function renderFront(c: Content, photoUrl: string): Promise<string>
   canvas.height = H;
   const ctx = canvas.getContext('2d')!;
   const bg = ctx.createLinearGradient(0, 0, W, H);
-  bg.addColorStop(0, '#2b2f36');
-  bg.addColorStop(1, '#14161a');
+  bg.addColorStop(0, '#ffffff');
+  bg.addColorStop(1, '#e8eaed');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
+  drawSlot(ctx, true);
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#14161a';
+  fitText(ctx, c.name, W - 160, 110, 700);
+  ctx.fillText(c.name, W / 2, 255);
 
   const img = await loadImage(photoUrl);
-  const px = 90,
-    py = 170,
-    pw = W - 180,
-    ph = 700;
-  const r = 36;
+  const pw = 560,
+    ph = 640;
+  const px = (W - pw) / 2,
+    py = 320;
   ctx.save();
   ctx.beginPath();
-  ctx.roundRect(px, py, pw, ph, r);
+  ctx.roundRect(px, py, pw, ph, 36);
   ctx.clip();
   const scale = Math.max(pw / img.width, ph / img.height);
   const dw = img.width * scale,
@@ -68,15 +83,12 @@ export async function renderFront(c: Content, photoUrl: string): Promise<string>
   ctx.drawImage(img, px + (pw - dw) / 2, py + (ph - dh) * 0.2, dw, dh);
   ctx.restore();
 
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#f4f5f7';
-  fitText(ctx, c.name, W - 180, 96, 700);
-  ctx.fillText(c.name, W / 2, 985);
-  ctx.fillStyle = '#a9afb9';
-  fitText(ctx, c.position, W - 180, 44, 500);
-  ctx.fillText(c.position, W / 2, 1060);
-  ctx.fillStyle = '#5b6270';
-  ctx.fillRect(W / 2 - 40, 1110, 80, 4);
+  ctx.fillStyle = '#14161a';
+  ctx.font = `700 64px ${FONT}`;
+  const lines = wrap(ctx, c.position, W - 160);
+  const lh = 76;
+  const y0 = 1040 + (2 - Math.min(lines.length, 2)) * (lh / 2);
+  lines.slice(0, 3).forEach((l, n) => ctx.fillText(l, W / 2, y0 + n * lh));
   return canvas.toDataURL('image/png');
 }
 

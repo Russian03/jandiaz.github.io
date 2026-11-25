@@ -6,7 +6,7 @@ const Lanyard = lazy(() => import('./Lanyard/Lanyard'));
 
 const PHOTO = '/profile.webp';
 
-function hasWebGL(): boolean {
+export function hasWebGL(): boolean {
   try {
     const c = document.createElement('canvas');
     return !!(c.getContext('webgl2') || c.getContext('webgl'));
@@ -15,7 +15,12 @@ function hasWebGL(): boolean {
   }
 }
 
-export function CardStage({ content }: { content: Content }) {
+interface Props {
+  content: Content;
+  onFlip?: (showingBack: boolean) => void;
+}
+
+export function CardStage({ content, onFlip }: Props) {
   const [faces, setFaces] = useState<{ front: string; back: string }>();
   const [webgl] = useState(hasWebGL);
   const [size] = useState(() =>
@@ -55,7 +60,8 @@ export function CardStage({ content }: { content: Content }) {
             metal="graphite"
             cardColor="#1c1f25"
             size={size}
-            intro={!calm}
+            intro={false}
+            onFlip={onFlip}
             breeze={calm ? 0 : 0.2}
           />
         )}

@@ -4,12 +4,14 @@ import { CONTENT, type Lang } from './content/loadContent';
 import { readStoredLang, resolveInitialLang, storeLang } from './i18n/lang';
 import { LangSwitch } from './components/LangSwitch';
 import { ProfileLinks } from './components/ProfileLinks';
-import { CardStage } from './components/CardStage';
+import { CardStage, hasWebGL } from './components/CardStage';
 
 export default function App() {
   const [lang, setLang] = useState<Lang>(() =>
     resolveInitialLang(window.location.search, readStoredLang()),
   );
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [alwaysAbout] = useState(() => !hasWebGL());
   const content = CONTENT[lang];
 
   useEffect(() => {
@@ -24,11 +26,14 @@ export default function App() {
   return (
     <div className="page">
       <main className="stage">
-        <section className="about" aria-label={content.aboutLabel}>
+        <section
+          className={`about${aboutOpen || alwaysAbout ? ' open' : ''}`}
+          aria-label={content.aboutLabel}
+        >
           <h2>{content.aboutLabel}</h2>
           <Markdown>{content.about}</Markdown>
         </section>
-        <CardStage content={content} />
+        <CardStage content={content} onFlip={setAboutOpen} />
       </main>
 
       <footer className="footer">

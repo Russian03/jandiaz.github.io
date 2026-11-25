@@ -1,7 +1,7 @@
 /**
  * Lanyard — vendored from ReactBits (https://reactbits.dev/components/lanyard)
  * Copyright (c) 2026 David Haz. MIT + Commons Clause. Used here as part of a website.
- * Local change: Tailwind utility classes replaced by inline styles.
+ * Local changes: Tailwind classes replaced by inline styles; added onFlip callback.
  */
 /* eslint-disable */
 // @ts-nocheck
@@ -46,6 +46,7 @@ export interface LanyardProps {
   breeze?: number;
   interactive?: boolean;
   intro?: boolean;
+  onFlip?: (showingBack: boolean) => void;
   className?: string;
   style?: CSSProperties;
 }
@@ -895,12 +896,15 @@ const Lanyard = ({
   breeze = 0.5,
   interactive = true,
   intro = true,
+  onFlip,
   className = '',
   style
 }: LanyardProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const settingsRef = useRef<Settings | null>(null);
   const applyRef = useRef<(() => void) | null>(null);
+  const onFlipRef = useRef(onFlip);
+  onFlipRef.current = onFlip;
 
   settingsRef.current = {
     frontImage,
@@ -1358,6 +1362,7 @@ const Lanyard = ({
       }
       sim.turn = sim.turn === 0 ? Math.PI * direction : 0;
       body.angular.addScaledVector(up, FLIP_SPIN * direction);
+      onFlipRef.current?.(sim.turn !== 0);
     };
 
     const onPointerDown = (event: PointerEvent) => {

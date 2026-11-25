@@ -15,6 +15,7 @@ links:
       label: LinkedIn,
       url: 'https://www.linkedin.com/in/jan-d%C3%ADaz-carreras-candi-466332350/',
     }
+  - { type: instagram, label: Instagram, url: 'https://www.instagram.com/jan.diaz___/' }
   - { type: cv, label: CV, url: '/CV_JanDiaz_ES.pdf' }
 ---
 

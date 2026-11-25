@@ -7,7 +7,7 @@ export const LANGS = ['en', 'es'] as const;
 export type Lang = (typeof LANGS)[number];
 
 const LinkSchema = z.object({
-  type: z.enum(['github', 'email', 'linkedin', 'cv']),
+  type: z.enum(['github', 'email', 'linkedin', 'instagram', 'cv']),
   label: z.string().min(1),
   url: z.string().min(1),
 });

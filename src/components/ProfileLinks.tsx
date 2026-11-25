@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import { FaGithub, FaLinkedinIn, FaEnvelope, FaFileLines } from 'react-icons/fa6';
+import { FaGithub, FaLinkedinIn, FaInstagram, FaEnvelope, FaFileLines } from 'react-icons/fa6';
 import type { Content } from '../content/loadContent';
 
 type LinkType = Content['links'][number]['type'];
@@ -8,6 +8,7 @@ const ICONS: Record<LinkType, ComponentType<{ 'aria-hidden'?: boolean }>> = {
   github: FaGithub,
   email: FaEnvelope,
   linkedin: FaLinkedinIn,
+  instagram: FaInstagram,
   cv: FaFileLines,
 };
 

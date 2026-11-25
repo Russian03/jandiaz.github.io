@@ -23,10 +23,6 @@ export default function App() {
 
   return (
     <div className="page">
-      <a className="handle" href={content.handleUrl} target="_blank" rel="noopener noreferrer">
-        {content.handle}
-      </a>
-
       <main className="stage">
         <section className="about" aria-label={content.aboutLabel}>
           <h2>{content.aboutLabel}</h2>

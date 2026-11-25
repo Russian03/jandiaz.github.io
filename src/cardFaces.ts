@@ -3,6 +3,17 @@ import type { Content } from './content/loadContent';
 const W = 900;
 const H = 1260;
 
+async function loadFonts() {
+  try {
+    await Promise.all([
+      document.fonts.load('700 96px "Space Grotesk Variable"'),
+      document.fonts.load('500 44px "Space Grotesk Variable"'),
+    ]);
+  } catch {
+    /* fall back to system font */
+  }
+}
+
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -21,13 +32,14 @@ function fitText(
 ) {
   let s = size;
   do {
-    ctx.font = `${weight} ${s}px system-ui, -apple-system, "Segoe UI", sans-serif`;
+    ctx.font = `${weight} ${s}px "Space Grotesk Variable", system-ui, sans-serif`;
     s -= 2;
   } while (ctx.measureText(text).width > maxWidth && s > 20);
 }
 
 /** Front face: portrait photo, name and position on a graphite card. */
 export async function renderFront(c: Content, photoUrl: string): Promise<string> {
+  await loadFonts();
   const canvas = document.createElement('canvas');
   canvas.width = W;
   canvas.height = H;
@@ -67,7 +79,8 @@ export async function renderFront(c: Content, photoUrl: string): Promise<string>
 }
 
 /** Back face: handle on a plain graphite background. */
-export function renderBack(c: Content): string {
+export async function renderBack(c: Content): Promise<string> {
+  await loadFonts();
   const canvas = document.createElement('canvas');
   canvas.width = W;
   canvas.height = H;

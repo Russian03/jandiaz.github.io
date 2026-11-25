@@ -3,6 +3,7 @@
   --fg: #14161a;
   --muted: #6b7280;
   --accent: #14161a;
+  --display: 'Space Grotesk Variable', 'Inter Variable', system-ui, sans-serif;
   --chip: rgba(20, 22, 26, 0.06);
   color-scheme: light dark;
 }
@@ -58,34 +59,43 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 clamp(16px, 8vw, 160px);
+  padding: 0 clamp(16px, 7vw, 140px);
   text-align: center;
   color: var(--muted);
-  opacity: 0.55;
-  font-size: clamp(0.95rem, 1.2vw + 0.6rem, 1.6rem);
-  line-height: 1.55;
+  opacity: 0.6;
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 1.6vw + 0.7rem, 2.1rem);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
 }
 .about h2 {
-  margin: 0 0 0.6em;
-  font-size: 1.6em;
+  margin: 0 0 0.5em;
+  font-size: clamp(2.6rem, 9vw, 7rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
   color: var(--fg);
-  opacity: 0.5;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
+  opacity: 0.12;
 }
 .about p {
-  max-width: 60ch;
-  margin: 0 0 0.8em;
+  max-width: 34em;
+  margin: 0 0 0.7em;
 }
-.canvas,
+.about h2 + p {
+  margin-top: 0;
+}
+.canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.35)) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+  touch-action: pan-y;
+}
 .static-card {
   position: absolute;
   inset: 0;
   z-index: 1;
-}
-.canvas {
-  filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.35)) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
-  touch-action: pan-y;
 }
 .static-card {
   display: flex;
@@ -107,19 +117,6 @@ body {
   align-items: center;
   gap: 2px;
 }
-.handle {
-  position: absolute;
-  z-index: 3;
-  top: calc(12px + env(safe-area-inset-top));
-  right: calc(16px + env(safe-area-inset-right));
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: var(--chip);
-  color: var(--fg);
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-decoration: none;
-}
 .footer {
   position: relative;
   z-index: 2;
@@ -131,6 +128,8 @@ body {
 }
 .hint {
   margin: 0;
+  font-family: var(--display);
+  letter-spacing: 0.02em;
   font-size: 0.9rem;
   color: var(--muted);
 }
@@ -139,6 +138,8 @@ body {
   gap: 14px;
 }
 .links a {
+  position: relative;
+  z-index: 4;
   display: grid;
   place-items: center;
   width: 44px;
@@ -153,6 +154,8 @@ body {
   transform: translateY(-2px);
 }
 .lang {
+  position: relative;
+  z-index: 4;
   display: flex;
   gap: 4px;
   padding: 3px;

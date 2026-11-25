@@ -16,16 +16,18 @@ function hasWebGL(): boolean {
 }
 
 export function CardStage({ content }: { content: Content }) {
-  const [front, setFront] = useState<string>();
+  const [faces, setFaces] = useState<{ front: string; back: string }>();
   const [webgl] = useState(hasWebGL);
+  const [size] = useState(() =>
+    window.innerWidth < 600 ? 0.44 : window.innerWidth < 1000 ? 0.52 : 0.6,
+  );
   const [calm] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  const back = renderBackMemo(content);
 
   useEffect(() => {
     let alive = true;
-    renderFront(content, PHOTO)
-      .then((url) => alive && setFront(url))
-      .catch(() => alive && setFront(PHOTO));
+    Promise.all([renderFront(content, PHOTO), renderBack(content)])
+      .then(([front, back]) => alive && setFaces({ front, back }))
+      .catch(() => alive && setFaces({ front: PHOTO, back: PHOTO }));
     return () => {
       alive = false;
     };
@@ -46,13 +48,13 @@ export function CardStage({ content }: { content: Content }) {
   return (
     <div className="canvas" role="img" aria-label={`${content.name} — ${content.position}`}>
       <Suspense fallback={null}>
-        {front && (
+        {faces && (
           <Lanyard
-            frontImage={front}
-            backImage={back}
+            frontImage={faces.front}
+            backImage={faces.back}
             metal="graphite"
             cardColor="#1c1f25"
-            size={0.62}
+            size={size}
             intro={!calm}
             breeze={calm ? 0 : 0.5}
           />
@@ -60,11 +62,4 @@ export function CardStage({ content }: { content: Content }) {
       </Suspense>
     </div>
   );
-}
-
-const cache = new Map<Content, string>();
-function renderBackMemo(c: Content): string {
-  let v = cache.get(c);
-  if (!v) cache.set(c, (v = renderBack(c)));
-  return v;
 }

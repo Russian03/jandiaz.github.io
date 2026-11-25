@@ -11,7 +11,7 @@ contact links and an English / Spanish switch. Responsive from small phones to l
 
 ## Stack
 
-React 19 · TypeScript · Vite · three.js (Lanyard component from [ReactBits](https://reactbits.dev/components/lanyard)) ·
+React 19 · TypeScript · Vite · React Three Fiber + Rapier physics (3D badge) ·
 Vitest + Testing Library · Playwright · GitHub Actions + Pages. No backend, no API keys.
 
 ## Editing the content
@@ -49,7 +49,7 @@ npm run dev        # http://localhost:5173
 ```
 content/          en.md, es.md — single source of content
 public/           photo, CV, favicon
-src/components/   Lanyard (vendored), CardStage, ProfileLinks, LangSwitch
+src/components/   Badge (3D card), CardStage, ProfileLinks, LangSwitch
 src/content/      front-matter parsing + schema validation
 src/i18n/         language resolution (?lang= → saved → English)
 tests/  e2e/      unit and smoke tests
@@ -63,4 +63,6 @@ tests/  e2e/      unit and smoke tests
 
 ## Credits & license
 
-Code: [MIT](LICENSE). Lanyard component © David Haz / [ReactBits](https://reactbits.dev) (MIT + Commons Clause).
+Code: [MIT](LICENSE). The badge follows the technique from Vercel's
+[Building an interactive 3D event badge with React Three Fiber](https://vercel.com/blog/building-an-interactive-3d-event-badge-with-react-three-fiber)
+and is inspired by the [ReactBits Lanyard](https://reactbits.dev/components/lanyard).

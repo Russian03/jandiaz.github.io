@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import type { Content } from '../content/loadContent';
 import { renderBack, renderFront } from '../cardFaces';
 
-const Lanyard = lazy(() => import('./Lanyard/Lanyard'));
+const Badge = lazy(() => import('./Badge/Badge'));
 
 const PHOTO = '/profile.webp';
 
@@ -15,25 +15,9 @@ export function hasWebGL(): boolean {
   }
 }
 
-/** Card height as a fraction of the viewport, shrunk so the card also fits narrow windows. */
-function computeSize(w: number, h: number): number {
-  return Math.max(0.22, Math.min(0.46, (0.62 * w) / h));
-}
-
-function useCardSize(): number {
-  const [size, setSize] = useState(() => computeSize(window.innerWidth, window.innerHeight));
-  useEffect(() => {
-    const update = () => setSize(computeSize(window.innerWidth, window.innerHeight));
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, []);
-  return size;
-}
-
 export function CardStage({ content }: { content: Content }) {
   const [faces, setFaces] = useState<{ front: string; back: string }>();
   const [webgl] = useState(hasWebGL);
-  const size = useCardSize();
 
   useEffect(() => {
     let alive = true;
@@ -60,18 +44,7 @@ export function CardStage({ content }: { content: Content }) {
   return (
     <div className="canvas" role="img" aria-label={`${content.name} — ${content.position}`}>
       <Suspense fallback={null}>
-        {faces && (
-          <Lanyard
-            frontImage={faces.front}
-            backImage={faces.back}
-            metal="graphite"
-            cardColor="#1c1f25"
-            size={size}
-            intro={false}
-            strapLength={0.25}
-            breeze={0}
-          />
-        )}
+        {faces && <Badge front={faces.front} back={faces.back} />}
       </Suspense>
     </div>
   );

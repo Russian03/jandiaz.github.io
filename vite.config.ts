@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [react()],
   base: '/',
   build: {
-    chunkSizeWarningLimit: 800,
+    // the lazy 3D chunk embeds the Rapier WASM physics engine
+    chunkSizeWarningLimit: 3500,
   },
   test: {
     environment: 'jsdom',

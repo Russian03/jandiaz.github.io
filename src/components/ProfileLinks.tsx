@@ -30,7 +30,7 @@ export function ProfileLinks({ links }: { links: Content['links'] }) {
           <a
             key={type}
             className={`link-${type}`}
-            href={url}
+            href={url.startsWith('/') ? import.meta.env.BASE_URL + url.slice(1) : url}
             aria-label={label}
             title={label}
             {...(external || type === 'cv' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}

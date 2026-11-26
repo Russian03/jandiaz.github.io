@@ -123,25 +123,25 @@ export async function renderBack(c: Content): Promise<string> {
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
-  const pad = 90;
+  const pad = 70;
   const text = c.about.replace(/[*_`#>]/g, '');
   ctx.textAlign = 'left';
   ctx.fillStyle = '#f4f5f7';
   ctx.font = `700 64px ${FONT}`;
-  ctx.fillText(c.aboutLabel, pad, 330);
+  ctx.fillText(c.aboutLabel, pad, 260);
 
   // shrink the body text until it fits the free area
-  const top = 400;
-  const bottom = H - 120;
-  let size = 42;
+  const top = 320;
+  const bottom = H - 90;
+  let size = 56;
   let lines: string[] = [];
   for (; size >= 22; size -= 2) {
     ctx.font = `400 ${size}px ${FONT}`;
     lines = wrap(ctx, text, W - pad * 2);
-    if (lines.length * size * 1.4 <= bottom - top) break;
+    if (lines.length * size * 1.35 <= bottom - top) break;
   }
   ctx.fillStyle = '#c9ced6';
-  lines.forEach((l, n) => ctx.fillText(l, pad, top + size + n * size * 1.4));
+  lines.forEach((l, n) => ctx.fillText(l, pad, top + size + n * size * 1.35));
 
   return canvas.toDataURL('image/png');
 }

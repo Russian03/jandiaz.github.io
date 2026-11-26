@@ -4,7 +4,7 @@ import { renderBack, renderFront, renderStrap } from '../cardFaces';
 
 const Lanyard = lazy(() => import('./Lanyard/Lanyard'));
 
-const PHOTO = '/profile.webp';
+const PHOTO = `${import.meta.env.BASE_URL}profile.webp`;
 
 export function hasWebGL(): boolean {
   try {

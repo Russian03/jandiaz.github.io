@@ -1,13 +1,13 @@
 # Jan Díaz — Portfolio
 
-[![CI](https://github.com/Russian03/jandiaz.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/Russian03/jandiaz.github.io/actions/workflows/ci.yml)
-[![Deploy](https://github.com/Russian03/jandiaz.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/Russian03/jandiaz.github.io/actions/workflows/deploy.yml)
+[![CI](https://github.com/Russian03/russian03.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/Russian03/russian03.github.io/actions/workflows/ci.yml)
+[![Deploy](https://github.com/Russian03/russian03.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/Russian03/russian03.github.io/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Personal portfolio: an interactive 3D ID card (tap to flip, hold to fidget), an "about me" text,
 contact links and an English / Spanish switch. Responsive from small phones to large desktops.
 
-**Live:** https://russian03.github.io/jandiaz.github.io/ <!-- update if the URL changes -->
+**Live:** https://russian03.github.io/
 
 ## Stack
 

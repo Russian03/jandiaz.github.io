@@ -37,6 +37,32 @@ export function CardStage({
     };
   }, [content]);
 
+  // The canvas sits above everything (the card must never be hidden), so links and
+  // buttons under it are reached by letting the pointer through while hovering them.
+  useEffect(() => {
+    if (!webgl) return;
+    const canvas = document.querySelector<HTMLElement>('.canvas');
+    const control = (x: number, y: number) =>
+      document
+        .elementsFromPoint(x, y)
+        .find((el) => !canvas?.contains(el) && el.closest('a, button'))
+        ?.closest<HTMLElement>('a, button');
+    const onMove = (e: PointerEvent) => {
+      if (canvas) canvas.style.pointerEvents = control(e.clientX, e.clientY) ? 'none' : '';
+    };
+    // touch has no hover: forward a tap on a control that the canvas swallowed
+    const onUp = (e: PointerEvent) => {
+      if (e.pointerType === 'mouse' || !canvas?.contains(e.target as Node)) return;
+      control(e.clientX, e.clientY)?.click();
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+    };
+  }, [webgl]);
+
   if (!webgl) {
     return (
       <figure className="static-card">

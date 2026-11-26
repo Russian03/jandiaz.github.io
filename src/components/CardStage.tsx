@@ -50,16 +50,34 @@ export function CardStage({
     const onMove = (e: PointerEvent) => {
       if (canvas) canvas.style.pointerEvents = control(e.clientX, e.clientY) ? 'none' : '';
     };
-    // touch has no hover: forward a tap on a control that the canvas swallowed
+    // touch has no hover: forward a real tap on a control that the canvas swallowed.
+    // A drag (moved or held) that happens to end over a control must not open it.
+    let down: { x: number; y: number; t: number } | null = null;
+    const onDown = (e: PointerEvent) => {
+      down = canvas?.contains(e.target as Node)
+        ? { x: e.clientX, y: e.clientY, t: e.timeStamp }
+        : null;
+    };
     const onUp = (e: PointerEvent) => {
-      if (e.pointerType === 'mouse' || !canvas?.contains(e.target as Node)) return;
+      const start = down;
+      down = null;
+      if (e.pointerType === 'mouse' || !start) return;
+      const moved = Math.hypot(e.clientX - start.x, e.clientY - start.y);
+      if (moved > 10 || e.timeStamp - start.t > 400) return;
       control(e.clientX, e.clientY)?.click();
     };
+    const onCancel = () => {
+      down = null;
+    };
     window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerdown', onDown);
     window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onCancel);
     return () => {
       window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerdown', onDown);
       window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onCancel);
     };
   }, [webgl]);
 

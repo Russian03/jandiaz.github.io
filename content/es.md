@@ -19,6 +19,4 @@ links:
   - { type: cv, label: CV, url: '/CV_JanDiaz_ES.pdf' }
 ---
 
-Soy un estudiante de 22 años, cursando cuarto de Ingeniería Informática con mención en Computación. Busco una empresa donde realizar mis prácticas profesionales, con el objetivo de adquirir experiencia, desarrollar mis habilidades y aportar valor al equipo, con la posibilidad de continuar en la empresa en el futuro.
-
-Actualmente hago prácticas en el IOC (ETSEIB). También doy clases particulares a estudiantes de Bachillerato.
+Soy un estudiante de 23 años, cursando cuarto de Ingeniería Informática con mención en Computación. Busco una empresa donde realizar mis prácticas profesionales, con el objetivo de adquirir experiencia, desarrollar mis habilidades y aportar valor al equipo, con la posibilidad de continuar en la empresa en el futuro.

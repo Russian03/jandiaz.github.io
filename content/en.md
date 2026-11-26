@@ -19,6 +19,4 @@ links:
   - { type: cv, label: CV, url: '/CV_JanDiaz_ES.pdf' }
 ---
 
-I'm a 22-year-old student in the fourth year of a Computer Engineering degree, specialising in Computing. I'm looking for a company to do my professional internship, with the goal of gaining experience, developing my skills and adding value to the team — with the possibility of staying on in the future.
-
-Currently doing an internship at the IOC (ETSEIB). I also work as a private tutor for high-school students.
+I'm a 23-year-old student in the fourth year of a Computer Engineering degree, specialising in Computing. I'm looking for a company to do my professional internship, with the goal of gaining experience, developing my skills and adding value to the team — with the possibility of staying on in the future.
